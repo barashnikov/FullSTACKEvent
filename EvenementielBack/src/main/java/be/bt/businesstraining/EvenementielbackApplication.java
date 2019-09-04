@@ -37,31 +37,6 @@ public class EvenementielbackApplication {
                 user.setRole("USER");
                 Role admin = new Role();
                 admin.setRole("ADMIN");
-                User user1 = new User();
-                User user2 = new User();
-
-                /*--------------------------------------------------*/
-                user1.setName("Fakiri");
-                user1.setSurname("Mohamed");
-                user1.setDateBirth("19-10-1993");
-                user1.setNickname("barash");
-                user1.setPassword("mdp");
-                user1.setMail("fakiri");
-                user1.setEnabled(true);
-
-
-
-                /*---------------------------------------------------*/
-                user2.setName("Test");
-                user2.setSurname("Mohamed");
-                user2.setDateBirth("19-10-1993");
-                user2.setNickname("zadzadzad");
-                user2.setPassword("mdp");
-                user2.setMail("fakiri");
-                user2.setEnabled(true);
-
-
-                userRepository.saveAll(Arrays.asList(user1,user2));
                 rolesRepository.saveAll(Arrays.asList(user, admin));
 
 
