@@ -61,7 +61,7 @@ public class UsersResource {
             player = usersService.findUserByNickName(user.getName());
 
 
-            return new ResponseEntity<User>(player, HttpStatus.OK);
+f            return new ResponseEntity<User>(player, HttpStatus.OK);
         }
 
 
