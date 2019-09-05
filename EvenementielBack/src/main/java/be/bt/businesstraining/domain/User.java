@@ -5,40 +5,59 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 //@Data
 @Entity()
 @Table(name = "user")
-//@AllArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     private Long idUser;
+    @Column(name = "NAME", length = 50)
+    @NotNull
+    @Size(min = 4, max = 50)
     private String name;
+    @Column(name = "LASTNAME", length = 50)
+    @NotNull
+    @Size(min = 4, max = 50)
     private String surname;
+    @Column(name = "DATEBIRTH", length = 50)
+    @NotNull
+    @Size(min = 10, max = 50)
     private String dateBirth;
+    @Column(name = "NICKNAME", length = 50, unique = true)
+    @NotNull
+    @Size(min = 4, max = 50)
     private String nickname;
-    private String password;
-    private String mail;
 
-    public User(String name, String surname, String dateBirth, String nickname, String password, String mail, Set<Event> idEvent, Set<Role> roles, Boolean enabled) {
-        this.name = name;
-        this.surname = surname;
-        this.dateBirth = dateBirth;
-        this.nickname = nickname;
-        this.password = password;
-        this.mail = mail;
-        this.idEvent = idEvent;
-        this.roles = roles;
-        this.enabled = enabled;
-    }
+    @Column(name = "PASSWORD", length = 100)
+    @NotNull
+    @Size(min = 4, max = 100)
+    private String password;
+    @Column(name = "MAIL", length = 50)
+    @NotNull
+    @Size(min = 4, max = 50)
+    private String mail;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "USER_AUTHORITY",
+            joinColumns = {@JoinColumn(name = "idUser", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
+    private List<Authority> authorities;
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "idUser",fetch = FetchType.LAZY)
@@ -51,5 +70,12 @@ public class User {
     private Set<Role> roles;
 
     @JsonIgnore
+    @Column(name = "ENABLED")
+    @NotNull
     private Boolean enabled;
+    @Column(name = "LASTPASSWORDRESETDATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private Date lastPasswordResetDate;
+
 }

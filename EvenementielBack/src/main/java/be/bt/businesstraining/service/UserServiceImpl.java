@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.Arrays;
@@ -25,7 +24,6 @@ public class UserServiceImpl implements UsersService {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
-    @Transactional
     @Override
     public ResponseEntity<?> register(User user) {
         try {
@@ -48,7 +46,6 @@ public class UserServiceImpl implements UsersService {
             return new ResponseEntity<String>("Erreur lors de l'enregistrement : " + ex.getMessage(), HttpStatus.CONFLICT);
         }
     }
-    @Transactional(readOnly = true)
     @Override
     public User findUserByNickName(String nickname) {
         return userRepository.findByNickname(nickname);
