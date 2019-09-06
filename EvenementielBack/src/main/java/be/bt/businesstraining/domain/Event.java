@@ -12,7 +12,7 @@ public class Event {
     private Long idEvent;
     private String name;
     private String description;
-    private int nbPlaces;
+    private int nbPlaces = 0;
     private int nbParticipants;
     private double price;
     @JsonIgnore

@@ -15,5 +15,6 @@ public interface EventService {
     void deleteEvent(Principal user, String EventName);
     User determinateUser (Principal user);
     List<Event> findAllEvent();
+    ResponseEntity<?> joinEvent (User user,String eventName,int nbPlaces,int nbParticipants);
 
 }

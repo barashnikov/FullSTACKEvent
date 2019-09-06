@@ -1,8 +1,11 @@
 package be.bt.businesstraining.service;
 
-import be.bt.businesstraining.domain.Role;
+import be.bt.businesstraining.domain.Authority;
+
 import be.bt.businesstraining.domain.User;
-import be.bt.businesstraining.repository.RoleRepository;
+import be.bt.businesstraining.repository.AuthorityRepository;
+import be.bt.businesstraining.repository.EventRepository;
+
 import be.bt.businesstraining.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,33 +13,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 
 public class UserServiceImpl implements UsersService {
 
     UserRepository userRepository;
-    RoleRepository roleRepository;
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    EventRepository eventRepository;
+    AuthorityRepository authorityRepository;
+    public UserServiceImpl(UserRepository userRepository,EventRepository eventRepository,AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.eventRepository = eventRepository;
+        this.authorityRepository = authorityRepository;
     }
     @Override
     public ResponseEntity<?> register(User user) {
+        List<Authority> authorities = new ArrayList<>();
         try {
             if (userRepository.findByNickname(user.getNickname()) == null) {
-                Role role1 = roleRepository.findFirstByRole("USER");
+                authorities.add(authorityRepository.findById(1L).orElse(null));
+               // authorities.add(authorityRepository.findById(1L).orElse(null));
                 user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
                 user.setEnabled(true);
-                user.setRoles(new HashSet<>(Arrays.asList(role1)));
-
-                Set<User> theUsers =  role1.getUsers();
-                theUsers.add(user);
-                role1.setUsers(theUsers);
-
+                user.setAuthorities(authorities);
                 userRepository.save(user);
                 return new ResponseEntity<>(user, HttpStatus.OK);
             } else {
@@ -50,4 +50,6 @@ public class UserServiceImpl implements UsersService {
     public User findUserByNickName(String nickname) {
         return userRepository.findByNickname(nickname);
     }
+
+
 }

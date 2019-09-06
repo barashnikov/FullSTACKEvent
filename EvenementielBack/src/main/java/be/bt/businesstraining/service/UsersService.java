@@ -8,4 +8,5 @@ public interface UsersService {
 
     ResponseEntity<?> register (User user);
     User findUserByNickName(String nickname);
+
 }

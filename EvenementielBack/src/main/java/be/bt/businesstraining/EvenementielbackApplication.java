@@ -1,12 +1,8 @@
 package be.bt.businesstraining;
 
-import be.bt.businesstraining.domain.Role;
-import be.bt.businesstraining.domain.User;
-import be.bt.businesstraining.repository.RoleRepository;
-import be.bt.businesstraining.repository.UserRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -26,27 +22,27 @@ public class EvenementielbackApplication {
         return 	new BCryptPasswordEncoder();
     }
 
-    @Bean
-    CommandLineRunner runIt(RoleRepository rolesRepository, UserRepository userRepository) {
-        return args -> {
-            try {
-
-
-
-                Role user = new Role();
-                user.setRole("USER");
-                Role admin = new Role();
-                admin.setRole("ADMIN");
-                rolesRepository.saveAll(Arrays.asList(user, admin));
-
-
-
-                System.out.println("Fin de l'initialisation par CommandLineRunner ...");
-            } catch (Exception ex) {
-                LOGGER.error("Exception rencontrée lors de l'initialisation par CommandLineRunner : "+ex);
-            }
-        };
-    }
+//    @Bean
+//    CommandLineRunner runIt(RoleRepository rolesRepository, UserRepository userRepository) {
+//        return args -> {
+//            try {
+//
+//
+//
+//                Role user = new Role();
+//                user.setRole("USER");
+//                Role admin = new Role();
+//                admin.setRole("ADMIN");
+//                rolesRepository.saveAll(Arrays.asList(user, admin));
+//
+//
+//
+//                System.out.println("Fin de l'initialisation par CommandLineRunner ...");
+//            } catch (Exception ex) {
+//                LOGGER.error("Exception rencontrée lors de l'initialisation par CommandLineRunner : "+ex);
+//            }
+//        };
+//    }
 
 
 }

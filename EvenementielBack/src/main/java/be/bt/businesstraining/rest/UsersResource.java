@@ -1,7 +1,7 @@
 package be.bt.businesstraining.rest;
 
 import be.bt.businesstraining.domain.User;
-import be.bt.businesstraining.repository.RoleRepository;
+
 import be.bt.businesstraining.repository.UserRepository;
 import be.bt.businesstraining.service.UsersService;
 import org.slf4j.Logger;
@@ -21,17 +21,16 @@ public class UsersResource {
 
     private UsersService usersService;
     private UserRepository usersRepository;
-    private RoleRepository roleRepository;
+
 
 
     // =================================
     // ========= Constructors ==========
     // =================================
 
-    public UsersResource(UserRepository usersRepository, RoleRepository roleRepository, UsersService usersService) {
+    public UsersResource(UserRepository usersRepository, UsersService usersService) {
         this.usersService = usersService;
         this.usersRepository = usersRepository;
-        this.roleRepository = roleRepository;
     }
 
     // =================================

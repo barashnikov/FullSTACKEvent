@@ -3,11 +3,11 @@ package be.bt.businesstraining.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -63,11 +63,11 @@ public class User {
     @OneToMany(mappedBy = "idUser",fetch = FetchType.LAZY)
     private Set<Event> idEvent = new HashSet<>();
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(joinColumns = @JoinColumn(name = "user_idUser"),
-            inverseJoinColumns = @JoinColumn(name = "role_idRole"))
-    private Set<Role> roles;
+//    @JsonIgnore
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(joinColumns = @JoinColumn(name = "user_idUser"),
+//            inverseJoinColumns = @JoinColumn(name = "role_idRole"))
+//    private Set<Role> roles;
 
     @JsonIgnore
     @Column(name = "ENABLED")
@@ -75,7 +75,8 @@ public class User {
     private Boolean enabled;
     @Column(name = "LASTPASSWORDRESETDATE")
     @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
+    @Nullable
+    @JsonIgnore
     private Date lastPasswordResetDate;
 
 }

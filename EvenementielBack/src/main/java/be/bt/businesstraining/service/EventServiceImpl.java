@@ -3,7 +3,7 @@ package be.bt.businesstraining.service;
 import be.bt.businesstraining.domain.Event;
 import be.bt.businesstraining.domain.User;
 import be.bt.businesstraining.repository.EventRepository;
-import be.bt.businesstraining.repository.RoleRepository;
+
 import be.bt.businesstraining.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,16 +23,16 @@ public class EventServiceImpl implements EventService {
     private static final Logger LOGGER = LoggerFactory.getLogger(EventServiceImpl.class);
     private UserRepository usersRepository;
     private EventRepository eventRepository;
-    private RoleRepository rolesRepository;
+
 
     // =================================
     // ========= Constructors ==========
     // =================================
 
-    public EventServiceImpl(UserRepository usersRepository, EventRepository eventRepository, RoleRepository rolesRepository) {
+    public EventServiceImpl(UserRepository usersRepository, EventRepository eventRepository ) {
         this.usersRepository = usersRepository;
         this.eventRepository = eventRepository;
-        this.rolesRepository = rolesRepository;
+
     }
 
     @Override
@@ -71,6 +71,24 @@ public class EventServiceImpl implements EventService {
             eventRepository.delete(event);
         }
 
+
+    }
+    @Override
+    public ResponseEntity<?> joinEvent(User user, String eventName,int nbPlaces,int nbParticipants){
+        Event eventReceipt = eventRepository.findByName(eventName);
+        
+        try{
+            if(eventReceipt != null && nbPlaces < nbParticipants ){
+                eventReceipt.setIdUser(user);
+                eventReceipt.setNbPlaces(+1);
+                eventRepository.save(eventReceipt);
+                return new ResponseEntity<>(eventReceipt,HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>(eventReceipt,HttpStatus.NOT_ACCEPTABLE);
+            }
+        }catch (Exception ex){
+            return new ResponseEntity<String>("Erreur lors de l'enregistrement :" +ex.getMessage(),HttpStatus.CONFLICT);
+        }
 
     }
 
